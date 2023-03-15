@@ -76,47 +76,49 @@ class Adaboost():
                         error = 1 - error
                         p = -1
 
-                    # If this threshold resulted in the smallest error we save the
-                    # configuration
+                    # Si ce seuil a entraîné la plus petite erreur
+                    # nous enregistrons la configuration
                     if error < min_error:
                         clf.polarity = p
                         clf.threshold = threshold
                         clf.feature_index = feature_i
                         min_error = error
-            # Calculate the alpha which is used to update the sample weights,
-            # Alpha is also an approximation of this classifier's proficiency
+
+            # Calculer l'alpha utilisé pour mettre à jour les poids du sample
+            # Alpha est également une approximation de la compétence de ce classifier
             clf.alpha = 0.5 * math.log((1.0 - min_error) / (min_error + 1e-10))
-            # Set all predictions to '1' initially
+            # Définir toutes les predictions sur '1' initialement
             predictions = np.ones(np.shape(y))
-            # The indexes where the sample values are below threshold
+            # Les indices où les valeurs de sample sont inférieures au seuil
             negative_idx = (clf.polarity * X[:, clf.feature_index] < clf.polarity * clf.threshold)
-            # Label those as '-1'
+            # Labeliser-les comme '-1'
             predictions[negative_idx] = -1
-            # Calculate new weights 
-            # Missclassified samples gets larger weights and correctly classified samples smaller
+            # Calculer les nouveaux poids
+            # Les samples mal classés obtiennent des poids plus importants  
+            # et les samples correctement classés des poids plus petits
             w *= np.exp(-clf.alpha * y * predictions)
-            # Normalize to one
+            # Normalizer à 1
             w /= np.sum(w)
 
-            # Save classifier
+            # Sauvegarder le classifier
             self.clfs.append(clf)
 
     def predict(self, X):
         n_samples = np.shape(X)[0]
         y_pred = np.zeros((n_samples, 1))
-        # For each classifier => label the samples
+        # POur chaque classifier => labeliser les samples
         for clf in self.clfs:
-            # Set all predictions to '1' initially
+            # Définir toutes les predictions sur '1' initialement
             predictions = np.ones(np.shape(y_pred))
-            # The indexes where the sample values are below threshold
+            # Les indices où les valeurs de samples sont inférieures au seuil
             negative_idx = (clf.polarity * X[:, clf.feature_index] < clf.polarity * clf.threshold)
-            # Label those as '-1'
+            # Labeliser-les comme '-1'
             predictions[negative_idx] = -1
-            # Add predictions weighted by the classifiers alpha
-            # (alpha indicative of classifier's proficiency)
+            # Ajouter des predictions pondérées par les classifiers alpha
+            # (alpha indiquant la compétence du  classifier)
             y_pred += clf.alpha * predictions
 
-        # Return sign of prediction sum
+        # Retourne le signe de la somme des predictions
         y_pred = np.sign(y_pred).flatten()
 
         return y_pred
@@ -131,14 +133,14 @@ def main():
     digit2 = 8
     idx = np.append(np.where(y == digit1)[0], np.where(y == digit2)[0])
     y = data.target[idx]
-    # Change labels to {-1, 1}
+    # Changer  les labels en {-1, 1}
     y[y == digit1] = -1
     y[y == digit2] = 1
     X = data.data[idx]
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5)
 
-    # Adaboost classification with 5 weak classifiers
+    # Classification Adaboost avec les 5 classifiers faibles
     clf = Adaboost(n_clf=5)
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
@@ -146,7 +148,7 @@ def main():
     accuracy = accuracy_score(y_test, y_pred)
     print ("Accuracy:", accuracy)
 
-    # Reduce dimensions to 2d using pca and plot the results
+    # Reduire les dimensions en 2d en utilisant pca and plot les resultats
     Plot().plot_in_2d(X_test, y_pred, title="Adaboost", accuracy=accuracy)
 
 
