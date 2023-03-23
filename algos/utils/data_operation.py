@@ -6,7 +6,7 @@ import sys
 
 
 def accuracy_score(y_true, y_pred):
-    """ Compare y_true to y_pred and return the accuracy """
+    """ Compare y_true avec y_pred et retourne l'accuracy """
     accuracy = np.sum(y_true == y_pred, axis=0) / len(y_true)
     return accuracy
 
