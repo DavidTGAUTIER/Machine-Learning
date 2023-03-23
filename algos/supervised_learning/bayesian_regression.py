@@ -63,7 +63,7 @@ class BayesianRegression:
         # On Suppose que la variance est distribuée selon cette distribution.
         # Référence:https://en.wikipedia.org/wiki/Scaled_inverse_chi-squared_distribution
 
-        def _draw_scaled_inv_chi_sq(self, n, df, scale):
+    def _draw_scaled_inv_chi_sq(self, n, df, scale):
         X = chi2.rvs(size=n, df=df)
         sigma_sq = df * scale / X
         return sigma_sq
@@ -111,3 +111,22 @@ class BayesianRegression:
         u_eti = 50 + self.cred_int/2
         self.eti = np.array([[np.percentile(beta_draws[:,i], q=l_eti), np.percentile(beta_draws[:,i], q=u_eti)] \
                                 for i in range(n_features)])
+        
+
+    def predict(self, X, eti=False):
+
+        # Si transformation polynomiale
+        if self.poly_degree:
+            X = polynomial_features(X, degree=self.poly_degree)
+
+        y_pred = X.dot(self.w)
+        # Si les limites inférieure et supérieure pour les 95% (eti=True)
+        # alors l'intervalle à queue égale (equal tail interval) doit être renvoyé
+        if eti:
+            lower_w = self.eti[:, 0]
+            upper_w = self.eti[:, 1]
+            y_lower_pred = X.dot(lower_w)
+            y_upper_pred = X.dot(upper_w)
+            return y_pred, y_lower_pred, y_upper_pred
+
+        return y_pred
