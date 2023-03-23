@@ -5,6 +5,14 @@ import math
 import sys
 
 
+
+def mean_squared_error(y_true, y_pred):
+    """Retourne l'erreur quadratique moyenne (mse) entre y_true et y_pred"""
+    mse = np.mean(np.power(y_true - y_pred), 2)
+    return mse
+
+
+
 def accuracy_score(y_true, y_pred):
     """ Compare y_true avec y_pred et retourne l'accuracy """
     accuracy = np.sum(y_true == y_pred, axis=0) / len(y_true)
