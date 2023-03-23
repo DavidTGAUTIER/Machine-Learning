@@ -57,3 +57,6 @@ def polynomial_features(X, degree):
         combs = [combinations_with_replacement(range(n_features), i) for i in range(0, degree+1)]
         flat_combs = [item for sublist in combs for item in sublist]
         return flat_combs
+    
+    combinations = index_combinations()
+    n_output_features = len(combinations)
