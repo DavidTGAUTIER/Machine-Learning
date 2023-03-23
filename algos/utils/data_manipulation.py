@@ -60,3 +60,9 @@ def polynomial_features(X, degree):
     
     combinations = index_combinations()
     n_output_features = len(combinations)
+    X_new = np.empty((n_samples, n_output_features))
+
+    for i, index_combs in enumerate(combinations):
+        X_new[:, i] = np.prod(X[:, index_combs], axis=1)
+
+    return X_new
