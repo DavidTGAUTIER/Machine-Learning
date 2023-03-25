@@ -89,3 +89,9 @@ class DecisionTree(objet):
             respectivement sur la feature de X qui (basé sur l'impureté) sépare 
             le mieux les données"""
         
+        largest_impurity = 0
+        best_criteria = None    # index de la feature et le seuil
+        best_sets = None        # Subsets des données
+
+        # Check si l'expansion de y est nécessaire
+        
