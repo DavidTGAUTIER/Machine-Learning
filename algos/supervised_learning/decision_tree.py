@@ -148,3 +148,51 @@ class DecisionTree(objet):
 
         return DecisionNode(value=leaf_value)
 
+    def predict_value(self, x, tree=None):
+        """Fait une recherche recursive descendante de l'arbre et fait une prediction de 
+           l'echantillon de donnée par la valeur de la feuille que nous trouvons"""
+
+        if tree is None:
+            tree = self.root
+
+        # If we have a value (i.e we're at a leaf) => return value as the prediction
+        if tree.value is not None:
+            return tree.value
+
+        # Choose the feature that we will test
+        feature_value = x[tree.feature_i]
+
+        # Determine if we will follow left or right branch
+        branch = tree.false_branch
+        if isinstance(feature_value, int) or isinstance(feature_value, float):
+            if feature_value >= tree.threshold:
+                branch = tree.true_branch
+        elif feature_value == tree.threshold:
+            branch = tree.true_branch
+
+        # Test subtree
+        return self.predict_value(x, branch)
+
+    def predict(self, X):
+        """ Classify samples one by one and return the set of labels """
+        y_pred = [self.predict_value(sample) for sample in X]
+        return y_pred
+
+    def print_tree(self, tree=None, indent=" "):
+        """ Recursively print the decision tree """
+        if not tree:
+            tree = self.root
+
+        # If we're at leaf => print the label
+        if tree.value is not None:
+            print (tree.value)
+        # Go deeper down the tree
+        else:
+            # Print test
+            print ("%s:%s? " % (tree.feature_i, tree.threshold))
+            # Print the true scenario
+            print ("%sT->" % (indent), end="")
+            self.print_tree(tree.true_branch, indent + indent)
+            # Print the false scenario
+            print ("%sF->" % (indent), end="")
+            self.print_tree(tree.false_branch, indent + indent)
