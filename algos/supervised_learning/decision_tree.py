@@ -155,14 +155,15 @@ class DecisionTree(objet):
         if tree is None:
             tree = self.root
 
-        # If we have a value (i.e we're at a leaf) => return value as the prediction
+        # Si nous avons une valeur (c'est-à-dire que nous sommes à une feuille)
+        # => retourne la valeur comme prédiction
         if tree.value is not None:
             return tree.value
 
-        # Choose the feature that we will test
+        # Choisit la feature que nous testerons
         feature_value = x[tree.feature_i]
 
-        # Determine if we will follow left or right branch
+        # Détermine si nous suivrons la branche gauche ou droite
         branch = tree.false_branch
         if isinstance(feature_value, int) or isinstance(feature_value, float):
             if feature_value >= tree.threshold:
@@ -170,16 +171,16 @@ class DecisionTree(objet):
         elif feature_value == tree.threshold:
             branch = tree.true_branch
 
-        # Test subtree
+        # Sous-arbre de test
         return self.predict_value(x, branch)
 
     def predict(self, X):
-        """ Classify samples one by one and return the set of labels """
+        """ Classer les échantillons un par un et retourner l'ensemble des labels """
         y_pred = [self.predict_value(sample) for sample in X]
         return y_pred
 
     def print_tree(self, tree=None, indent=" "):
-        """ Recursively print the decision tree """
+        """ Print recursivement le decision tree """
         if not tree:
             tree = self.root
 
