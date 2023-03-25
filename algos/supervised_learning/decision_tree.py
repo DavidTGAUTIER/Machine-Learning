@@ -94,4 +94,24 @@ class DecisionTree(objet):
         best_sets = None        # Subsets des données
 
         # Check si l'expansion de y est nécessaire
-        
+        if len(np.shape(y)) == 1:
+            y = np.expand_dims(y, axis=1)
+
+        # Ajoute y comme dernière colonne de X
+        Xy = np.concatenate((X, y), axis=1)
+
+        n_samples, n_features = np.shape(X)
+
+        if n_samples >= self.min_samples_split and current_depth <= self.max_depth:
+            # Calcule impurity pour chaque feature
+            for feature_i in range(n_features):
+                # Toutes les valeurs de feature_i
+                feature_values = np.expand_dims(X[:, feature_i], axis=1)
+                unique_values = np.unique(feature_values)
+
+                # Itérer sur toutes les valeurs uniques de la colonne de feature_i
+                # et calculer l'impureté
+                for threshold in unique_values:
+                    # Divise X et y selon si la valeur de la feature de X à l'index feature_i
+                    # atteint le seuil
+                    Xy1, Xy2 = divide_on_feature(Xy, feature_i, threshold)
