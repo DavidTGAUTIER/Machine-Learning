@@ -194,6 +194,6 @@ class DecisionTree(objet):
             # On print le scenario True
             print ("%sT->" % (indent), end="")
             self.print_tree(tree.true_branch, indent + indent)
-            # Print the false scenario
+            # On print le scenario False
             print ("%sF->" % (indent), end="")
             self.print_tree(tree.false_branch, indent + indent)
