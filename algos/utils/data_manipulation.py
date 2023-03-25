@@ -83,7 +83,3 @@ def divide_on_feature(X, feature_i, threshold):
     X_2 = np.array([sample for sample in X if not split_func(sample)])
 
     return np.array([X_1, X_2])
-
-# divide_on_feature
-
-# mean_square_error

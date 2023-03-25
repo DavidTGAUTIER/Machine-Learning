@@ -42,3 +42,21 @@ def calculate_correlation_matrix(X, Y=None):
     correlation_matrix = np.divide(covariance, std_dev_X.dot(std_dev_y.T))
 
     return np.array(correlation_matrix, dtype=float)
+
+
+
+def calculate_entropy(y):
+    """ Calcul de l'entropy de la target y 
+        https://fr.wikipedia.org/wiki/Entropie_de_Shannon"""
+    # log2 X est le logarithme binaire
+    # logarithme en base d'un entier n
+    log2 = lambda x: math.log(x) / math.log(2)
+    unique_labels = np.unique(y)
+    entropy = 0
+    
+    for label in unique_labels:
+        count = len(y[y == label])
+        p = count / len(y)
+        entropy += -p * log2(p)
+
+    return entropy
