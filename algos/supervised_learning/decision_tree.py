@@ -115,3 +115,23 @@ class DecisionTree(objet):
                     # Divise X et y selon si la valeur de la feature de X à l'index feature_i
                     # atteint le seuil
                     Xy1, Xy2 = divide_on_feature(Xy, feature_i, threshold)
+
+                    if len(Xy1) > 0 and len(Xy2) > 0:
+                        # Sélectionnez les valeurs de y des deux sets
+                        y1 = Xy1[:, n_features:]
+                        y2 = Xy2[:, n_features:]
+
+                        # Calcule l'impurity
+                        impurity = self._impurity_calculation(y, y1, y2)
+                        
+                        # Si ce seuil a entraîné un gain d'information plus élevé qu'auparavant
+                        # on sauvegarde la valeur du seuil et l'index de la feature
+                        if impurity > largest_impurity:
+                            largest_impurity = impurity
+                            best_criteria = {"feature_i": feature_i, "threshold": threshold}
+                            best_sets = {
+                                "leftX": Xy1[:, :n_features],   # X du left subtree
+                                "lefty": Xy1[:, n_features:],   # y du left subtree
+                                "rightX": Xy2[:, :n_features],  # X du right subtree
+                                "righty": Xy2[:, n_features:]   # y du right subtree
+                                }
