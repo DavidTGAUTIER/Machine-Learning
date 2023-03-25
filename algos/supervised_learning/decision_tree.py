@@ -184,12 +184,12 @@ class DecisionTree(objet):
         if not tree:
             tree = self.root
 
-        # If we're at leaf => print the label
+        # Si on atteint une feuille = > print le label
         if tree.value is not None:
             print (tree.value)
-        # Go deeper down the tree
+        # Sinon, on va plus loin dans l'arbre
         else:
-            # Print test
+            # On print le test
             print ("%s:%s? " % (tree.feature_i, tree.threshold))
             # Print the true scenario
             print ("%sT->" % (indent), end="")
