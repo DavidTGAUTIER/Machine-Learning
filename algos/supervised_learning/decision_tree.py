@@ -83,3 +83,6 @@ class DecisionTree(objet):
         self.one_dim = len(np.shape(y)) == 1
         self.root = self._build_tree(X, y)
         self.loss=None
+
+    def _build_tree(self, X, y, current_depth=0):
+        
