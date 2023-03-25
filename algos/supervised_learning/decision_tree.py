@@ -135,3 +135,16 @@ class DecisionTree(objet):
                                 "rightX": Xy2[:, :n_features],  # X du right subtree
                                 "righty": Xy2[:, n_features:]   # y du right subtree
                                 }
+                            
+        if largest_impurity > self.min_impurity:
+            # On construit des sous-arbres pour les branches droite et gauche
+            true_branch = self._build_tree(best_sets["leftX"], best_sets["lefty"], current_depth + 1)
+            false_branch = self._build_tree(best_sets["rightX"], best_sets["righty"], current_depth + 1)
+            return DecisionNode(feature_i=best_criteria["feature_i"], threshold=best_criteria[
+                                "threshold"], true_branch=true_branch, false_branch=false_branch)
+
+        # Quand on arrive à la feuille => on determine la valeur
+        leaf_value = self._leaf_value_calculation(y)
+
+        return DecisionNode(value=leaf_value)
+
