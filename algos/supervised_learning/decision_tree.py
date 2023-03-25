@@ -85,4 +85,7 @@ class DecisionTree(objet):
         self.loss=None
 
     def _build_tree(self, X, y, current_depth=0):
+        """ Méthode récursive qui construit l'arbre de décision et divise X et y
+            respectivement sur la feature de X qui (basé sur l'impureté) sépare 
+            le mieux les données"""
         
