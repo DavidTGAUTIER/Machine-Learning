@@ -191,7 +191,7 @@ class DecisionTree(objet):
         else:
             # On print le test
             print ("%s:%s? " % (tree.feature_i, tree.threshold))
-            # Print the true scenario
+            # On print le scenario True
             print ("%sT->" % (indent), end="")
             self.print_tree(tree.true_branch, indent + indent)
             # Print the false scenario
