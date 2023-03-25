@@ -70,10 +70,10 @@ def polynomial_features(X, degree):
 
 
 def divide_on_feature(X, feature_i, threshold):
-    """  Diviser le dataset si la valeur du sample de l'index
-         des features est supérieure au seuil donné"""
+    """  Divise le dataset si la valeur du sample en fonction de 
+         l'index de la feature_i est supérieure au seuil donné"""
     split_func = None
-    
+
     if isinstance(threshold, int) or isinstance(threshold, float):
         split_func = lambda sample: sample[feature_i] >= threshold
     else:
