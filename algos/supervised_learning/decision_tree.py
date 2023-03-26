@@ -220,4 +220,5 @@ class XGBoostRegressionTree(DecisionTree):
         return y_true, y_pred
     
 
-    def 
+    def _gain(self, y_true, y_pred):
+        nominator = np.power((y_true * self.loss_gradient(y_true, y_pred)).sum(), 2)
