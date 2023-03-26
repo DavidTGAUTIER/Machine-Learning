@@ -200,4 +200,4 @@ class DecisionTree(object):
 
 
 class XGBoostRegressionTree(DecisionTree):
-    
+    pass
