@@ -205,3 +205,12 @@ class XGBoostRegressionTree(DecisionTree):
     - Reference -
     http://xgboost.readthedocs.io/en/latest/model.html
     """
+
+    def _split(self, y):
+        """
+        y contient :
+            * y_true dans la moitié gauche de la colonne du milieu
+            * y_pred dans la moitié droite de la colonne du milieu
+        Split et retourne les deux matrices
+        """
+        col = int(np.shape(y)[1]/2)
