@@ -214,3 +214,10 @@ class XGBoostRegressionTree(DecisionTree):
         Split et retourne les deux matrices
         """
         col = int(np.shape(y)[1]/2)
+        y_true = y[:, :col]
+        y_pred = y[:, col:]
+
+        return y_true, y_pred
+    
+
+    def 
