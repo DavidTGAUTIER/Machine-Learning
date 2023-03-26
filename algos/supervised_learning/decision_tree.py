@@ -200,4 +200,8 @@ class DecisionTree(object):
 
 
 class XGBoostRegressionTree(DecisionTree):
-    
+    """
+    Regression Tree pour XGBoost
+    - Reference -
+    http://xgboost.readthedocs.io/en/latest/model.html
+    """
