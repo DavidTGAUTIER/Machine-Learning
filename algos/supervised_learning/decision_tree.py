@@ -38,7 +38,7 @@ class DecisionNode():
         self.false_branch = false_branch    # Sous-arbre droite
 
 # Super classe de RegressionTree et ClassificationTree
-class DecisionTree(objet):
+class DecisionTree(object):
     """
     Super classe de RegressionTree et ClassificationTree.
 
@@ -197,3 +197,7 @@ class DecisionTree(objet):
             # On print le scenario False
             print ("%sF->" % (indent), end="")
             self.print_tree(tree.false_branch, indent + indent)
+
+
+class XGBoostRegressionTree(DecisionTree):
+    pass
